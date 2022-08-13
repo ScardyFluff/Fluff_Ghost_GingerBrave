@@ -132,12 +132,10 @@ Select.configmenu
 TalkConfig
 {
 	"\0\b[2]\_q\" 
-	//This bit of dialogue sets up a large balloon and a quick session, like above, so all the text will appear immediately. The rest is formatted to display the information and options to change it. I wouldn't touch any of it if you don't know what you're doing.
-	//I'll briefly explain the font tags I used here. \f[bold,1] turns bold on, \f[bold,0] turns it off, not unlike a <b> tag. \f[sup,1] turns superscript on (making it tiny and above the text) and \f[sup,0] turns it off. I touch on these tags in the walkthrough on SakuraScript.
 	--
 	"f[bold,1]Your name:\f[bold,0] %(username) \f[sup,1](\q[Change it?,TEACHNAME])\f[sup,0]\n"
 	--
-	"\f[bold,1]Your pronouns:\f[bold,0] %(heshe)/%(himher)/%(hisher) \f[sup,1](\q[Change them?,TEACHPRONOUN])\f[sup,0]\n"
+	"\f[bold,1]Your pronouns:\f[bold,0] %(they)/%(them) \f[sup,1](\q[Change them?,TEACHPRONOUN])\f[sup,0]\n"
 	--
 	"\f[bold,1]Your birthday:\f[bold,0] %(birthdayprint) \f[sup,1](\q[Change it?,TEACHBDAY])\f[sup,0]\n\n"
 	--
@@ -150,57 +148,68 @@ TalkConfig
 	"\![*]\q[Back to the menu,BACKTOMENU]\e"
 }
 
-//This and the next few set up the pronouns, as you can see by the linkedfunction names. You can replace "\0\s[0]What pronouns do you want?" with your own dialogue if you prefer, but leave the rest of it alone.
-
+// Re-teach Pronouns
 Select.TEACHPRONOUN
 {
 	"\0\s[0]What pronouns do you want?\w5\n\n[half]\_q/
-		\![*]\q[He-His-Him,choicemasc]\n/
-		\![*]\q[She-Her-Her,choicefem]\n/	
-		\![*]\q[They-Their-Them,choiceneither]\e"
+		\![*]\q[He/Him,choicemasculine]\n/
+		\![*]\q[She/Her,choicefeminine]\n/	
+		\![*]\q[They/Them,choicegenderless]\e"
 }
 
-Select.choicemasc
+Select.choicemasculine
 {
-	presuffix = "masculine"
-	himher = "him"
-	heshe = "he"
-	hisher = "his"
-	hesshes = "he's"
+	genderstyle = "masculine"
+	childname = "boy"
+	childformal = "lad"
+	adultname = "man"
+	titleformal = "mr."
+	titleinformal = "mister"
+	they = "he"
+	them = "him"
+	their = "his"
+	theirs = "his"
+	theyre = "he's"
 	--
-	"\0\s[0]The pronouns are now he him and his.\e"
+	"\0\s[0]The pronouns are now %(genderstyle).\e"
 	//Leave the part above the double dashes alone. You can replace the snip of dialogue however with whatever you like.
 }
 
-Select.choicefem
+Select.choicefeminine
 {
-	presuffix = "feminine"
-	himher = "her"
-	heshe = "she"
-	hisher = "her"
-	hesshes = "she's"
+	genderstyle = "feminine"
+	childname = "girl"
+	childformal = "lass"
+	adultname = "woman"
+	titleformal = "ms."
+	titleinformal = "lady"
+	they = "she"
+	them = "her"
+	their = "her"
+	theirs = "hers"
+	theyre = "she's"
 	--
-	"\0\s[0]The pronouns are now she her and her.\e"
+	"\0\s[0]The pronouns are now %(genderstyle).\e"
 	//as above, you can also replace this dialogue.
 }
 
-Select.choiceneither
+Select.choicegenderless
 {
-	presuffix = "undefine"
-	himher = "them"
-	heshe = "they"
-	hisher = "their"
-	hesshes = "they're"
+	genderstyle = "genderless"
+	childname = "kid"
+	childformal = "child"
+	adultname = "person"
+	titleformal = "mx."
+	titleinformal = "mix"
+	they = "they"
+	them = "them"
+	their = "their"
+	theirs = "theirs"
+	theyre = "they're"
 	--
-	"\0\s[0]The pronouns are now they them and their.\e"
+	"\0\s[0]The pronouns are now %(genderstyle).\e"
 	//and this one.
 }
-
-//Here are some examples of these envelopes in use.
-//"%(heshe) left that there."
-//"%(hisher) work is really cool."
-//"I'll ask %(himher) later."
-//"%(hesshes) really good at it."
 
 
 //These two options toggle whether or not you can delete your ghost. Leave them alone.

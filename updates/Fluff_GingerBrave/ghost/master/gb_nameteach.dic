@@ -44,26 +44,26 @@ OnNameTeach
 		}
 		else
 		{
-			"\0\s[0]I see. \w5I see! \w7And what about your pronouns?\n\n[half]/
-			\w3\_q\![*]\q[He/Him/His,choicefirstmasculine]\n/
-			\![*]\q[She/Her/Hers,choicefirstfeminine]\n/
-			\![*]\q[They/Them/Their,choicefirstgenderless]\e"
+			"\0\s[0]I see! \w7And what about your pronouns?\n\n[half]\w3\_q/
+			\![*]\q[He/Him,choicefirstmasculine]\n/
+			\![*]\q[She/Her,choicefirstfeminine]\n/
+			\![*]\q[They/Them,choicefirstgenderless]\e"
 		}
 	}
 }
 
 // Pronoun Guide (Cuz I really do need it!)
-// genderstyle	 = That person seems MASCULINE./That person seems FEMININE./That person seems GENDERLESS.
-// childname	 = The BOY loves cheese!/The GIRL loves cheese!/The KID loves cheese!
-// childformal 	 = The young LAD is happy./The young LASS is happy./The young CHILD is happy.
-// adultname	 = That MAN seems weird./That WOMAN seems weird./That PERSON seems weird.
-// titleformal	 = MR. User, come fowards./MS. User, come fowards./MX. User, come fowards.
-// titleinformal = Hey MISTER! Come over!/Hey LADY! Come over!/Hey MIX! Come over!
-// they 		 = HE loves that cake./SHE loves that cake./THEY love that cake.
-// them			 = That belongs to HIM./That belongs to HER./That belongs to THEM.
-// their 		 = That's HIS house./That's HER house./That's THEIR house.
-// theirs		 = That's HIS./That's HERS/That's THEIRS.
-// theyre		 = HE'S so mad!/SHE'S so mad!/THEY'RE so mad!
+// %(genderstyle)	= That person seems MASCULINE./That person seems FEMININE./That person seems GENDERLESS.
+// %(childname)		= The BOY loves cheese!/The GIRL loves cheese!/The KID loves cheese!
+// %(childformal)	= The young LAD is happy./The young LASS is happy./The young CHILD is happy.
+// %(adultname)		= That MAN seems weird./That WOMAN seems weird./That PERSON seems weird.
+// %(titleformal)	= MR. User, come fowards./MS. User, come fowards./MX. User, come fowards.
+// %(titleinformal) = Hey MISTER! Come over!/Hey LADY! Come over!/Hey MIX! Come over!
+// %(they)			= HE loves that cake./SHE loves that cake./THEY love that cake.
+// %(them)			= That belongs to HIM./That belongs to HER./That belongs to THEM.
+// %(their)			= That's HIS house./That's HER house./That's THEIR house.
+// %(theirs)		= That's HIS./That's HERS/That's THEIRS.
+// %(theyre)		= HE'S so mad!/SHE'S so mad!/THEY'RE so mad!
 
 Select.choicefirstmasculine
 {
@@ -130,7 +130,7 @@ Select.titlegimme
 {
 	"\0\b[4]\s[0]Ok! \w3I can do that! \w2What were you thinking of?"
 	--
-	if genderstyle == "masculine" //this value was defined in bootend.dic and menu.dic when the user chose their pronouns. Thus, if someone chose he/him pronouns, they would be able to choose Mr. or Master.
+	if genderstyle == "masculine"
 	{
 	"\n\n[half]/
 	\![*]\q[Mr.,titlemr]\n/
@@ -138,7 +138,7 @@ Select.titlegimme
 	\![*]\q[-kun,titlekun]\n/
 	\![*]\q[-chan,titlechan]\n"
 	}
-	elseif genderstyle == "feminine" //Likewise, if someone chose she/her pronouns, they could choose Ms. or Lady.
+	elseif genderstyle == "feminine"
 	{
 	"\n\n[half]/
 	\![*]\q[Ms.,titlems]\n/
@@ -154,10 +154,9 @@ Select.titlegimme
 	\![*]\q[-kun,titlekun]\n/
 	\![*]\q[-chan,titlechan]\n"
 	}
-	-- //the titles after this are gender neutral and will appear for all users. If you want to remove the masculine and feminine titles entirely, just delete from the curly bracket one line up to the double dashes above "if presuffix == "masculine". That should leave only the neutral titles. Make sure to leave a set of double dashes above the neutral titles though. You can also just put the feminine and masculine titles in here too if you want all titles to be available to all users at all times.
+	--
 	"\n[half]/
 	\![*]\q[...Nevermind,titlenone]\e"
-	//Note that the final line here ends with \e instead of \n/, since it is the final option. Make sure your final option (and ONLY your final option) always ends with \e. More on that in the box below.
 }
 
 Select.titlenone
@@ -223,16 +222,12 @@ Select.titlechan
 		NameDone
 }
 
-//--NameDone
-//This is the final bit of dialogue your ghosts will have when the user changes their name. There is a special section here for when the user first boots the ghost.
-
 NameDone
 {
 	if firstboot == 1 //this checks for the flag that was set during the firstboot sequence
 	{
 		firstboot = 0 //this turns the flag off
-		
-		//This dialogue will display the first time the user puts in their name. You might want to add some closing thoughts to the introduction your ghost had in OnFirstBoot, or directions about how to use the ghost, or something like that. It's up to you!
+
 		"\![leave,passivemode]Well, \w9nice to meet you %(username)!\e"
 	}
 	else
