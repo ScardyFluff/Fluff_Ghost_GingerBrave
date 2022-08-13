@@ -1,0 +1,25 @@
+
+//--- surfacetable.txt ---
+
+charset,UTF-8
+version,1
+option,DisableNoDefineSurfaces
+
+group,GB
+{
+	scope,0
+
+		0,Default
+}
+
+group,Friend
+{
+	scope,0
+
+		10,Default
+}
+
+//group,__disabled
+//{
+//9999,__parts
+//}
