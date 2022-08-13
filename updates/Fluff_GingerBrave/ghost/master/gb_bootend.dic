@@ -1,156 +1,40 @@
-﻿//---------------------------Booting and Ending--------------------------
+﻿
+//--- gb_bootend.dic ---
 
-//This .dic file is set aside for booting and ending dialogue, as well as a few other functions. Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html), in particular the page about SakuraScript, for more details about how to properly format ghost dialogue!
-//You should be editing these in Notepad++, and in particular, you should set the Language to C to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
-//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
-
-//Much of this file you will only have to set up once, so take heart!
-
-
-//*********************Advanced User Info*******************************
-//These text boxes are meant for those who have an interest in expanding or using more complicated functions in their ghost. Also for my own reference in the future since I plan on using this template too, haha. If you have no interest in any of this and just want to keep things as simple as possible, feel free to skip these boxes.
-
-//--A Note about Functions--
-//A function that begins with On, such as OnFirstBoot here, can be called from anywhere in any .dic file by using \![raise] or by just sticking OnFunction somewhere. A function that does NOT start with On, however, can be a bit finicky. You can create your own functions all over the place if you want, there's just a difference between OnDoodlebop and Doodlebop, if you get me. See the walkthrough page about coding for more about creating functions.
-
-//If you're having trouble getting a function of yours to run, like Doodlebop, try changing it to OnDoodlebop and see if that fixes it.
-//***********************************************************************
-
-
-//--OnFirstBoot--
-
-//OnFirstBoot is, as you can probably guess, what happens when your user first boots up your ghost. This is where you'll want to set up an introduction and ask your user for information your ghost will need, like their name and what pronouns they'll be using. This will only run the first time they are booted!
-
-//*********************Advanced User Info*******************************
-//Because this only runs once and under an odd set of circumstances, it can be hard to test if this function is working properly. Trying to run the entire function using \![raise,OnFirstBoot] will instead bring up your alternate dialogue, so sadly you can't check it that way. You CAN get it to run using \![raise,OnFirstBoot,0] though.
-
-//If you're going to be adding new variables and values and such, make sure you define them all in OnFirstBoot! You can make any value you want, but it has to equal SOMEthing to exist at first. Then you can do whatever with it.
-//***********************************************************************
-
-
-OnFirstBoot
+OnFirstBoot //\![raise,OnFirstBoot,0]
 {
-//OnFirstBoot begins with some code at first to define some values your ghost will be using. I'll briefly touch on what they are, but for the most part you should not need to edit any of these and you can safely ignore most of them (except nowshell if you've changed your shell folder's name from master). Definitely don't delete them unless you know what you're doing.
-
- 	lastTalk = "" //This is part of how chained conversations work (see aitalk.dic).
+//--- Base ---
+ 	lastTalk = ""
 	passhour = 0
 	passmin = 0 
-	passsec = 0 // These keep track of the time.
- 	username         = "USER" //This sets a temporary name for the user. It'll be replaced when they tell the ghost their name.
-	stroke           = 0	// Sets their being-pet state to zero.
- 	teachusername    = 0	// Related to them learning your name.
-	mikireflag       = 0	// Determines behavior at certain points.
- 	aitalkinterval = 300 //Their default talk rate.
- 	birthdayprint = "????" //A temporary value for the user's birthday.
-	talktime = "5 minutes" //How the value aitalkinterval will display in the config menu.
-	deleteshitai = "OFF" //Sets whether or not the user can uninstall the ghost to "OFF". The user can change it later in the config menu (see menu.dic). 
-	nowshell = "master" //This is for a special if check in aitalk.dic to see what shell the ghost is using. You should use the name of your default shell folder here.
-	firstboot = 1 //This marks that this is the first time you've run the ghost. It's so it won't reroute to general name changing dialogue when the user inputs their name.
-	
-	if reference0 == 0 //Don't touch this line.
+	passsec = 0
+ 	username = "USER"
+	usernamesolo = "USER2"
+	stroke = 0
+ 	teachusername = 0
+	mikireflag = 0
+ 	aitalkinterval = 300
+ 	birthdayprint = "?????"
+	talktime = "5 minutes"
+	deleteshitai = "OFF"
+	nowshell = "master"
+	firstboot = 1
+
+	if reference0 == 0
  	{
-		//---- Alright, here is where the dialogue for your ghost begins! Again, I hope you've studied up on the walkthrough's guide to dialogue coding! However, there are a few unique things about this first conversation that you should keep in mind.
-		//Unlike most dialogue, it should start with "\![enter,passivemode]". Passivemode basically ensures that the balloons won't disappear, the choices won't time out, the ghosts won't talk randomly, you can't bring up menus, and makes sure that this dialogue plays through to the end correctly. This is one of the very few instances you'll ever use it, so make sure to get out of it at the end! I'll tell you when, so don't worry.
-		//In Notepad++ with C language, you'll also notice that this dialogue is black instead of grey. This is because of the use of the backwards slash as mentioned in the advanced section of the SakuraScripting page. Do you see near the bottom where it has \n\n[half]/ with the other slash at the end before the choices are listed? You will want to replace dialogue up that \n\n[half], but do not mess with the choices beyond that unless you know what you're doing.
-		//Always make sure to keep your dialogue in the quotation marks! And remember, you can't use quotation marks IN dialogue either. You can use two single apostrophes instead if you must. And REMEMBER what I said about \![enter,passivemode]! Do NOT delete that tag!
-		
-		"\![enter,passivemode]\1\s[10]\0\s[0]Hello, and welcome to the Girl and Triangle Ghost Template. \w5My name is Girl, and that's Triangle over there.\w8\1\s[10]Sup. \w8\0\s[0]\n\n[half]If you downloaded this template, you are presumably interested in making a ghost. \w5This template has been designed to help you do that. \w5Please make sure to carefully read the included readme file. \w8\1\n\n[half]\s[10]Each of the .dic files you'll be editing has a lot of commentary to guide you.\w8\0\s[0]\n\n[half]In the future, you will be replacing this dialogue with the dialogue for your own ghost. \w5This is a good place to introduce your characters.\w8\1\n\n[half]\s[10]You can have your characters banter with each other and explain how the ghost works and how to access menus.\x\c\0\s[0]More details about dialogue coding will be in the walkthrough page.\w8\1\c\s[10]Now we're going to ask the user the first question about themselves, namely what pronouns they want us to use.\w8\0\s[0]\n\n[half]This will let us construct grammatically correct sentences referring to the user later.\x\w8\1\c\s[10]How should we refer to you, user?\n\n[half]/
-		\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
-		\![*]\q[She/Her/Hers,choicefirstsheher]\n/
-		\![*]\q[They/Them/Their,choicefirsttheythem]\e"
-		
-		//There's a lot going on here, but what you mostly need to remember is to enter Passivemode at the beginning, and make sure not to touch the bottom part that starts with \w5\_q where the options are set up. Do whatever you like with the rest of the dialogue though! Make sure to set up poses for both characters right when you start, otherwise one will be invisible until they speak.
-		//Note also the use of the \x and \c tags. Read more about them in the intermediate SakuraScript section of the walkthrough if you're curious.
-		
-		//*********************Advanced User Info*******************************
-		//You can rename the choices at the bottom anything you like. The basic structure of a choice goes like \q[Displayed Name,Linkedfunction]. So for example, \q[Do a Dance,danceitup] would display "Do a Dance" in the balloon and it would link to the function titled "danceitup".
-		//Note - Do not include quotation marks in the displayed name, or any other symbols like brackets or dialogue coding like \_a, since that'll break the option in the balloon. If you do this you'll notice pretty quickly. Also option names do not word wrap, so don't make them too long if your balloon is small.
-		
-		//If you remember my note from above about the difference between On functions, this is one place it comes up. If your linked function in this menu doesn't start with On, like danceitup up there, you'll have to preface it in the following code with Select.danceitup. You can see this at work below here. However, if it does have On, such as OnDanceitup, then you can simply name the function in the code as OnDanceitup. Take a look whenever functions are defined and how they're called in the files,and it should come together for you.
-		
-		//If you link to a function that doesn't exist, the ghost will do nothing. This can be handy for "Cancel" type functions, just point it at something that doesn't exist if you don't want to have a specific bit of cancel dialogue.
-		
-		//If you want your ghost to just refer to your user as "they" and want to skip the pronoun business altogether, then you can just delete the choices and end the dialogue with \e. You'll want to go into menu.dic and delete the pronoun choice option from the config menu as well.
-		//***********************************************************************
+		// These lines go to gb_nameteach.dic and does everything there.
+		"\![enter,passivemode]"
+		--
+		"\0\s[0]Name?\w5\![open,inputbox,OnNameTeach,-1]\e"
  	}
 	else
  	{
-		//---- This is dialogue for when the user uninstalls the ghost for whatever reason, then reinstalls them again. They will run this dialogue instead of their normal dialogue above. You can change this to reflect the fact the user's uninstalled your ghost once, or you can make it the same as the above, it's up to you. You'll see this if you try to run OnFirstBoot using ![raise] without the extra 0 as mentioned above.
  		{
- 		"\1\s[10]\0\s[0]This is the OnFirstBoot dialogue if we've been uninstalled and reinstalled.\e"
+			//This line is for when GingerBrave is Uninstalled and then Reinstalled.
+			"\0\s[0]I'm back.\e"
 		}
  	}
 }
-
-//Below are the choices that were defined at the end of the OnFirstBoot dialogue up there. These define the values your ghost will be using for pronouns according to what the user selected. On the whole, you should not need to touch these.
-
-//*********************Advanced User Info*******************************
-//Notice that after the values are set, there's a -- and then it loads up the next function in the sequence. You can use this basic method to set many values at once, then go to the same function afterwords.
-
-//To define a value, you use a single = mark. If it's a word, you need to put it in quotation marks, but if it's a number, you do not. See the walkthrough page on coding for details.
-
-//Notice how each choice is formatted as Select.choice. This is what I was talking about above with the difference between OnFunction and Function. These choices do not start with On, so they must begin with Select. instead. If you're setting up some quick choices for a menu you're only going to do once, then don't be afraid to use select. instead of having everything start with On.
-//***********************************************************************
-
-Select.choicefirsthehim
-{
-	presuffix = "masculine"
-	himher = "him"
-	heshe = "he"
-	hisher = "his"
-	hesshes = "he's"
-	--
-	NameInput
-}
-
-Select.choicefirstsheher
-{
-	presuffix = "feminine"
-	himher = "her"
-	heshe = "she"
-	hisher = "her"
-	hesshes = "she's"
-	--
-	NameInput
-}
-
-Select.choicefirsttheythem
-{
-	himher = "them"
-	heshe = "they"
-	hisher = "theirs"
-	hesshes = "they're"
-	--
-	NameInput
-}
-
-
-//--NameInput
-
-//NameInput is the next step in our introduction sequence. Now that the ghost has the pronouns set properly, they can ask the user for their name. It's done in this order so they'll know what prefixes will be appropriate for their name, like Mr. to he/him for example.
-
-//*********************Advanced User Info*******************************
-//Note this functions' name. This isn't a natural function included in the ghost, it's a piece of dialogue created by the original base coder to finish this sequence (cindysuke). I point this out to show you that you can do this too! You can create any number of functions just like this called whatever you want to do and say whatever you want! There are many things you can do with your Ghost if you're creative. Don't feel limited by what's in these files or the listed Shiori functions!
-//Just make sure you test them and they work, alright? I wrote more about coding and functions in the coding page for the walkthrough.
-//***********************************************************************
-
-NameInput
-{
-	//Note that there's a \![leave,passivemode] tag in this dialogue! Don't forget about this! If you leave them in passivemode they won't talk at all and it'd sort of defeat the purpose, right? I actually forgot this for a while with Hunter and Smoker and didn't notice because OnFirstBoot only runs once, so it took me some testing to find out what was wrong. Always make sure to leave passivemode when you're done with it!
-	
-	"\1\s[10]Now that the pronouns are set, we will ask for the user's name. \![leave,passivemode]\w8\0\s[0]What is your name, user? \![open,inputbox,OnNameTeach,-1]\e"
-	
-	//At the end of this dialogue there's a tag saying "\![open,inputbox,OnNameTeach,-1]". It basically leads to the naming function defined in nameteach.dic, so don't touch it. Make sure it's there though! Otherwise your user won't have a way to put in their name. :o
-	
-	//*********************Advanced User Info*******************************
-	//What this tag basically means is that you're calling a function at the end of the dialogue with the \! tag, you are telling it to open, you're telling it to open an inputbox, and you're telling that inputbox to link to a function called OnNameTeach, which is in the nameteach.dic file. Remember what I said about On functions? I talked a bit about this in the SakuraScripting walkthrough page and the coding page.
-	//The -1 at the end determines how long the box will be open until it times out. -1 means it shouldn't time out at all, I think.
-	//***********************************************************************
-}
-
-//--timeslot
-
-//This is another unique function to tell what time of day it is. This is used for specialized dialogue related to the day. If you're uninterested, just ignore it. Either way, don't touch it. If you are going to use it though, make a note of the names used for each chunk of time, like earlymorning or lunch. Those are the names you'll be using later.
 
 timeslot
 {
