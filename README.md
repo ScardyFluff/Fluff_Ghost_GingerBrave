@@ -3,4 +3,4 @@ A Ghost based on a character from Cookie Run, GingerBrave.
 
 Made by:
 * ScardyFluff
-* idkimtired
+* idkimtired (From Ukagaka Dream Team Server)
