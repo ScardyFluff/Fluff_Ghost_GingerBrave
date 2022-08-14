@@ -66,5 +66,5 @@ OnAnchorSelect
 //This bit of code is what makes menu options that don't start with On direct to Select.options instead. Remove or comment it if you prefer!
 OnChoiceSelect
 {
-	EVAL("Select.%(reference0)")
+    EVAL("Select.%(reference0)")
 }

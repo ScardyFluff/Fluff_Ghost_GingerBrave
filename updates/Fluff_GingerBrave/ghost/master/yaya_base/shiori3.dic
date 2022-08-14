@@ -83,18 +83,18 @@ load
 	C_CRLF = CHR(0xd,0xa)
 	C_BYTE1 = CHR(0x1)
 
-	REQ.COMMAND   = "LOAD"
-	REQ.PROTOCOL  = "AYA/5.0"
-	var.req.key   = (IARRAY, "Path")
+	REQ.COMMAND   = 'LOAD'
+	REQ.PROTOCOL  = 'AYA/5.0'
+	var.req.key   = (IARRAY, 'Path')
 	var.req.value = (IARRAY, _argv[0])
 	var.req.rawvalue = (IARRAY,_argv[0])
-	
+
 	SHIORI3FW.Path = _argv[0]
-	
+
 	var.lib.key = IARRAY
 	var.lib.value = IARRAY
 	var.lib.result = ''
-	
+
 	if (FSIZE(GETSETTING('coreinfo.savefile')) <= 0) && (FSIZE(GETSETTING('coreinfo.savefile') + '.ays') <= 0) {
 		if FSIZE('aya5_variable.cfg') > 0 {
 			RESTOREVAR('aya5_variable.cfg')
@@ -121,39 +121,38 @@ load
 
 	// 毎回起動時の初期化
 	SHIORI3FW.ResetAITalkInterval()
-	
+
 	_sec = GETSECCOUNT()
-	
+
 	SHIORI3FW.SaveVarCount = 0
 	SHIORI3FW.LastTalk     = ''
 	SHIORI3FW.LastTalkTime = _sec
 	SHIORI3FW.LastAITalk   = ''
 	SHIORI3FW.LastAITalkTime = _sec
 	SHIORI3FW.TalkEndTime  = _sec
-	SHIORI3FW.IsTalking    = 0
-	
+
 	if GETTYPE(SHIORI3FW.LastSurface) != 4 {
 		SHIORI3FW.LastSurface  = (0,10)
 		SHIORI3FW.IsVisible    = (1,1)
 	}
-	
+
 	SHIORI3FW.HWnd         = (0,0)
 	SHIORI3FW.HWndOld      = (0,0)
 	SHIORI3FW.BalloonHWnd  = (0,0)
 	SHIORI3FW.UniqueID     = ''
 	SHIORI3FW.DebugMode    = 1
 	SHIORI3FW.CanTalkFlag  = 1
-	
+
 	SHIORI3FW.Eventid = ''
 	SHIORI3FW.EventidOld = ''
 	SHIORI3FW.EventidTranslate = ''
 	SHIORI3FW.EventidTranslateOld = ''
 	SHIORI3FW.SecurityLevel = ''
-	
+
 	SHIORI3FW.ErrorDescription = ''
 	SHIORI3FW.ErrorLevel = ''
 	SHIORI3FW.LastErrorDescription = ''
-	
+
 	SAORI.DllList          = IARRAY
 	basewarename           = ''
 	basewarenameex         = ''
@@ -161,10 +160,10 @@ load
 	ghostbootmin           = GETSECCOUNT() / 60
 
 	S_CHARSET = GETSETTING('charset.output')
-	
+
 	status = ''
-	tempvarname = IARRAY
-	
+	SHIORI3FW.tempvarname = IARRAY
+
 	array_eventtranslate = ASORT('string,ascending',GETFUNCLIST('OnGhostEventTranslate'))
 	array_translateinternal = ASORT('string,ascending',GETFUNCLIST('OnTranslateInternal'))
 
@@ -175,19 +174,19 @@ load
 
 	//過去互換用（ascii変数）
 	if ISFUNC('restore_old_variables') {
-		restore_old_variables
+		EVAL('restore_old_variables')
 	}
-	
+
 	AyaLoad.FuncEnumExec('OnSystemLoad','ascending')
 	AyaLoad.FuncEnumExec('OnGhostLoad','ascending')
-	
+
 	_ft = <<'
 	On_version
 	On_craftman
 	On_craftmanw
 	'>>
 	_fa = SPLIT(_ft,C_CRLF)
-	
+
 	foreach _fa;_f {
 		if ISFUNC(_f) {
 			LOGGING("警告：関数/イベント %(_f) はシステム辞書で上書きされます")
@@ -205,17 +204,17 @@ load
 //------------------------------------------------------------------------------
 unload
 {
-	REQ.COMMAND   = "UNLOAD"
-	REQ.PROTOCOL  = "AYA/5.0"
+	REQ.COMMAND   = 'UNLOAD'
+	REQ.PROTOCOL  = 'AYA/5.0'
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
 	var.req.rawvalue = IARRAY
-	
+
 	ghostupmin_last = ghostupmin_total()
 
 	AyaLoad.FuncEnumExec('OnGhostUnload','descending')
 	AyaLoad.FuncEnumExec('OnSystemUnload','descending')
-	
+
 	// 保存する必要のない変数を削除
 	_var = <<'
 array_eventtranslate
@@ -231,10 +230,7 @@ var.lib.key
 var.lib.value
 var.lib.result
 SAORI.DllList
-ghostexlist
-ghostexcount
 selfname
-selfname2
 sakuraname
 keroname
 basewarename
@@ -245,9 +241,6 @@ installedghostlist
 installedsakuralist
 installedkerolist
 ascii
-displaybpp
-displaywidth
-displayheight
 uniqueid
 ghostbootmin
 status
@@ -256,8 +249,6 @@ res_reference
 res_marker
 marker
 res_valuenotify
-refold
-refold0
 SHIORI3FW.Path
 SHIORI3FW.LastAITalk
 SHIORI3FW.LastAITalkTime
@@ -285,6 +276,12 @@ SHIORI3FW.ErrorDescription
 SHIORI3FW.ErrorLevel
 SHIORI3FW.LastErrorDescription
 SHIORI3FW.Capability
+SHIORI3FW.DebugMode
+SHIORI3FW.Status
+SHIORI3FW.UserName
+SHIORI3FW.UserNameFull
+SHIORI3FW.UserBirthday
+SHIORI3FW.UserSex
 C_CRLF2
 C_CRLF
 C_BYTE1
@@ -294,20 +291,20 @@ C_BYTE1
 	//SHIORI3FW.ShellNameOld
 	//SHIORI3FW.ShellPath
 	//SHIORI3FW.BalloonName
+	//SHIORI3FW.BalloonNameOld
 	//SHIORI3FW.BalloonPath
 	//SHIORI3FW.LastSurface
 	//SHIORI3FW.IsVisible
 
 	ERASEVAR(SPLIT(_var,C_CRLF))
-	
-	_n = ARRAYSIZE(tempvarname)
-	for _i = 0 ; _i < _n ; _i++ {
-		ERASEVAR("%(tempvarname[_i])")
+
+	if ARRAYSIZE(SHIORI3FW.tempvarname) {
+		ERASEVAR(SHIORI3FW.tempvarname)
 	}
-	ERASEVAR('tempvarname')
-	
+	ERASEVAR('SHIORI3FW.tempvarname')
+
 	SHIORI3FW.ClearChainVariable
-	SHIORI3FW.ClearReferenceVariable
+	SHIORI3FW.ClearReferenceAndPassThruInsVariable
 	SHIORI3FW.ClearValueexVariable
 	SHIORI3FW.ClearAdditionalReturnVariable
 }
@@ -321,7 +318,7 @@ AyaTest.Eval
 	_array = SPLIT(_argv[0],C_CRLF)
 	_result = ''
 	_n = ARRAYSIZE(_array)
-	
+
 	for _i = 0 ; _i < _n ; _i++ {
 		if _array[_i] {
 			_result += EVAL(_array[_i])
@@ -339,7 +336,7 @@ AyaLoad.FuncEnumExec : void
 {
 	_a = GETFUNCLIST(_argv[0])
 	_a = ASORT('string,' + _argv[1],_a)
-	
+
 	_n = ARRAYSIZE(_a)
 	for _i = 0 ; _i < _n ; _i++ {
 		EVAL(_a[_i])
@@ -360,16 +357,16 @@ request
 	//For TEST
 	//test(_argv[0])
 	//return
-	
-	if SUBSTR(_argv[0],0,3) == '?? ' { //玉でのテスト用
+
+	if SUBSTR(_argv[0],0,3) == '?? ' {//玉でのテスト用
 		'!! ' + JOIN(AyaTest.Eval(ERASE(_argv[0],0,3)),',')
 		return
 	}
-	
+
 	_reqdata = _argv[0]
 	_linestart = 0
 	_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
-	
+
 	if _lineend <= 0 {
 		//1行目すらない！
 		"SHIORI/3.0 400 Bad Request%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
@@ -378,31 +375,31 @@ request
 	_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
 
 	// リクエスト種別とプロトコル名の取得　エラーなら400
-	REQ.COMMAND  = _lin[0," SHIORI"]
-	REQ.PROTOCOL = "SHIORI" + _lin[1," SHIORI"]
+	REQ.COMMAND  = _lin[0,' SHIORI']
+	REQ.PROTOCOL = 'SHIORI' + _lin[1,' SHIORI']
 
 	// リクエストヘッダの取得
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
 	var.req.rawvalue = IARRAY
-	
+
 	_linenum = 0
 	_idparsed = 0
-	
+
 	status = ''
 	SHIORI3FW.Eventid=''
-	SHIORI3FW.SecurityLevel='Internal' //互換性のためデフォルトはInternal
-	
+	SHIORI3FW.SecurityLevel='Internal'//互換性のためデフォルトはInternal
+
 	while _lineend > _linestart {
 		//行分割
 		_linestart = _lineend + 2
 		_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
-		
+
 		//空行もしくはみつからなかった
 		if _lineend <= _linestart {
 			break
 		}
-		
+
 		_linenum += 1
 		if SHIORI3FW.REQUEST_LINES_LIMIT {
 			if _linenum > SHIORI3FW.REQUEST_LINES_LIMIT {
@@ -411,33 +408,33 @@ request
 				}
 			}
 		}
-		
+
 		_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
-				
+
 		// キーと値を取得
 		_len = STRLEN(_lin)
-		_pos = STRSTR(_lin,": ",0)
+		_pos = STRSTR(_lin,': ',0)
 		var.req.key ,= (_key = SUBSTR(_lin,0,_pos))
 		_value       = SUBSTR(_lin,(_pos + 2),(_len - _pos - 2))
-		
+
 		if var.req.key == '' {
 			break
 		}
 
 		// イベントID名称を取得
-		if _key == "Charset" {
+		if _key == 'Charset' {
 			if S_CHARSET != _value {
 				void SETSETTING('charset.output',_value)
 				S_CHARSET = _value
 			}
 		}
-		elseif _key == "ID" {
-			// 取得　名前先頭が"On"でないなら付加
+		elseif _key == 'ID' {
+			// 取得　名前先頭が'On'でないなら付加
 			SHIORI3FW.Eventid = _value
-			if SUBSTR(SHIORI3FW.Eventid, 0, 2) != "On" {
-				SHIORI3FW.Eventid = "On_" + SHIORI3FW.Eventid
+			if SUBSTR(SHIORI3FW.Eventid, 0, 2) != 'On' {
+				SHIORI3FW.Eventid = 'On_' + SHIORI3FW.Eventid
 			}
-			
+
 			if SHIORI3FW.Eventid == 'OnAiTalk' || SHIORI3FW.Eventid == 'OnAITalk' {
 				SHIORI3FW.Eventid = 'OnAITalkNewEvent'
 			}
@@ -449,7 +446,7 @@ request
 				SHIORI3FW.MakeEmptyResponse(SHIORI3FW.Eventid)
 				--
 				C_CRLF
-				
+
 				return
 			}
 			_idparsed = 1
@@ -474,12 +471,15 @@ request
 		//特定のイベントを除きExternalなら204で返る
 		if SHIORI3FW.SecurityLevel == 'External' && SHIORI3FW.Eventid != 'OnXUkagakaLinkOpen' {
 			SHIORI3FW.MakeEmptyResponse
+			--
+			C_CRLF
+
 			return
 		}
 
 		// キーと値を記憶
 		var.req.rawvalue ,= _value
-		
+
 		if SHIORI3FW.AUTO_DATA_CONVERT {
 			if ISINTSTR(_value) {
 				var.req.value ,= TOINT(_value)
@@ -488,7 +488,7 @@ request
 				var.req.value ,= TOREAL(_value)
 			}
 			else {
-				var.req.value ,= REPLACE(_value, C_BYTE1, ",")	// バイト値1はカンマ化してしまう
+				var.req.value ,= REPLACE(_value, C_BYTE1, ',')// バイト値1はカンマ化してしまう
 			}
 		}
 		else {
@@ -497,16 +497,6 @@ request
 	}
 
 	OnRequest
-}
-
-TOAUTOEX
-{
-	_v = _argv[0]
-	if TOSTR(TOAUTO(_v)) == _v {
-		TOAUTO(_v)
-		return
-	}
-	_v
 }
 
 SHIORI3FW.TranslateEvent
@@ -533,44 +523,42 @@ OnRequest
 {
 	// コマンド別に処理分岐
 	case REQ.COMMAND {
-	when "NOTIFY" {
-		// NOTIFYリクエスト
-		_result = SHIORI3FW.RaiseIDEvent
-		"SHIORI/3.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
-		--
-		SHIORI3FW.AssembleReferenceHeader(1)
-	}
-
-	when "GET" {
-		// GETリクエスト
-		if (_result = SHIORI3FW.RaiseIDEvent) == "" {
-			SHIORI3FW.MakeEmptyResponse(SHIORI3FW.Eventid)
-		}
-		else {
-			"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
-				Value: %(_result)%(C_CRLF)"
+		when 'NOTIFY' {
+			// NOTIFYリクエスト
+			void SHIORI3FW.RaiseIDEvent
+			"SHIORI/3.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
 			--
-			SHIORI3FW.AssembleReferenceHeader(0)
-			
-			if SHIORI3FW.Eventid != 'OnTranslate' {
-				SHIORI3FW.EventidOld = SHIORI3FW.Eventid
-				SHIORI3FW.EventidTranslateOld = SHIORI3FW.EventidTranslate
+			SHIORI3FW.AssembleReferenceHeader(1)
+		}
+
+		when 'GET' {
+			// GETリクエスト
+			if (_result = SHIORI3FW.RaiseIDEvent) == '' {
+				SHIORI3FW.MakeEmptyResponse(SHIORI3FW.Eventid)
 			}
-			
+			else {
+				"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
+				Value: %(_result)%(C_CRLF)"
+				--
+				SHIORI3FW.AssembleReferenceHeader(0)
+
+				if SHIORI3FW.Eventid != 'OnTranslate' {
+					SHIORI3FW.EventidOld = SHIORI3FW.Eventid
+					SHIORI3FW.EventidTranslateOld = SHIORI3FW.EventidTranslate
+				}
+			}
 			SHIORI3FW.GetLastErrorLog
-			
+
 			if SHIORI3FW.LastErrorDescription != SHIORI3FW.ErrorDescription {
 				SHIORI3FW.LastErrorDescription = SHIORI3FW.ErrorDescription
-				
-				SHIORI3FW.PushAdditionalReturn('ErrorLevel',SHIORI3FW.ErrorLevel)
-				SHIORI3FW.PushAdditionalReturn('ErrorDescription',SHIORI3FW.ErrorDescription)
+
+				SHIORI3FW.PushErrorAlart(SHIORI3FW.ErrorLevel,SHIORI3FW.ErrorDescription)
 			}
 		}
-	}
 
-	others
-		// 未知のリクエスト
-		"SHIORI/3.0 400 Bad Request%(C_CRLF)"
+		others
+			// 未知のリクエスト
+			"SHIORI/3.0 400 Bad Request%(C_CRLF)"
 	}
 
 	--
@@ -580,47 +568,57 @@ OnRequest
 }
 
 //------------------------------------------------------------------------------
+//関数名：SHIORI3FW.PushErrorAlart
+//機能　：Push Error Alart
+//------------------------------------------------------------------------------
+SHIORI3FW.PushErrorAlart{
+	SHIORI3FW.PushAdditionalReturn('ErrorLevel',_argv[0])
+	SHIORI3FW.PushAdditionalReturn('ErrorDescription',_argv[1])
+}
+
+
+//------------------------------------------------------------------------------
 //関数名：SHIORI3FW.GetLastErrorLog
 //機能　：エラーログに表示すべき文字列を作成します
 //------------------------------------------------------------------------------
 SHIORI3FW.GetLastErrorLog
 {
 	_errors = GETERRORLOG()
-	
+
 	_errorlevel_text = 'SHIORI3FW.ERRORLOGLEVEL'
 	_errorlevel = 2
-	
+
 	if _errorlevel_text == 'note' {
 		_errorlevel = 0
 	}
 	elseif _errorlevel_text == 'warning' {
 		_errorlevel = 1
 	}
-	
+
 	SHIORI3FW.ErrorDescription = ''
 	SHIORI3FW.ErrorLevel = ''
-	
+
 	foreach _errors; _error {
 		_el = 0
-		
+
 		if ( STRSTR(_error,'error',0) >= 0 ) {
 			_el = 2
 		}
 		elseif ( STRSTR(_error,'warning',0) >= 0 ) {
 			_el = 1
 		}
-		
+
 		if _el < _errorlevel {
 			continue
 		}
-		
+
 		if STRLEN(SHIORI3FW.ErrorDescription) > 0 {
 			SHIORI3FW.ErrorDescription += CHR(1)
 			SHIORI3FW.ErrorLevel += CHR(1)
 		}
-		
+
 		SHIORI3FW.ErrorDescription += _error
-		
+
 		if _el == 0 {
 			SHIORI3FW.ErrorLevel += 'info'
 		}
@@ -631,7 +629,7 @@ SHIORI3FW.GetLastErrorLog
 			SHIORI3FW.ErrorLevel += 'critical'
 		}
 	}
-	
+
 }
 
 //------------------------------------------------------------------------------
@@ -694,13 +692,14 @@ SHIORI3FW.GetAdditionalReturns
 SHIORI3FW.AssembleReferenceHeader
 {
 	_is_notify = TOINT(_argv[0])
-	
-	_result = ""
-	_before = ""
-	
+
+	_result = ''
+	_before = ''
+	_value = ''
+
 	if _is_notify == 0 {
 		_r = GETTYPEEX('res_reference')
-		
+
 		if _r != 0 {
 			if _r == 4 {
 				_n = ARRAYSIZE(res_reference)
@@ -716,21 +715,21 @@ SHIORI3FW.AssembleReferenceHeader
 		else {
 			for _i = 0; _i < SHIORI3FW.RES_REF_MAX; _i++ {
 				_before = _value
-				
-				_varname = "res_reference" + _i
+
+				_varname = 'res_reference' + _i
 				_value = EVAL(_varname)
-				if _value != "" {
+				if _value != '' {
 					_result += "Reference%(_i): %(_value)%(C_CRLF)"
-					ERASEVAR(_varname);
+					ERASEVAR(_varname)
 				}
 				else {
-					if _before == ""; break
+					if _before == ''; break
 				}
 			}
 		}
-		
-		if (marker != "") || (res_marker != "") {
-			if marker != "" {
+
+		if (marker != '') || (res_marker != '') {
+			if marker != '' {
 				_result += "Marker: %(marker)%(C_CRLF)"
 				ERASEVAR('marker')
 			}
@@ -739,13 +738,18 @@ SHIORI3FW.AssembleReferenceHeader
 				ERASEVAR('res_marker')
 			}
 		}
+
+		if res_securitylevel != '' {
+			_result += "SecurityLevel: %(res_securitylevel)%(C_CRLF)"
+			ERASEVAR('res_securitylevel')
+		}
 	}
-	
-	if res_valuenotify != "" {
+
+	if res_valuenotify != '' {
 		_result += "ValueNotify: %(res_valuenotify)"
 		ERASEVAR('res_valuenotify')
 	}
-	
+
 	_result
 }
 
@@ -756,7 +760,7 @@ SHIORI3FW.AssembleReferenceHeader
 //------------------------------------------------------------------------------
 SHIORI3FW.IsImportantEvent
 {
-	if SHIORI3FW.Eventid == "OnSecondChange" {
+	if SHIORI3FW.Eventid == 'OnSecondChange' {
 		1
 		return
 	}
@@ -775,24 +779,22 @@ SHIORI3FW.RaiseIDEvent
 {
 	//reference&PassThru_Ins 変数を作成
 	SHIORI3FW.MakeReferenceAndPassThruInsVariable
-	
+
 	_event = SHIORI3FW.EventidTranslate
-	
+
 	_result_internal = ''
-	if SHIORI3FW.Eventid == "OnSecondChange" {
+	if SHIORI3FW.Eventid == 'OnSecondChange' {
 		// OnSecondChangeならランダムトーク関連処理
 		_event = SHIORI3FW.ControlAITalk(_event)
-		if eventtranslate_exist {
-			_event = EVAL('OnGhostEventTranslate(_event)')
-		}
+		_event = SHIORI3FW.TranslateEvent(_event)
 	}
-	
+
 	if _event != 'OnSecondChange' {
 		if ISFUNC('SHIORI3EV.' + _event) {
 			_result_internal = TOSTR(EVAL('SHIORI3EV.' + _event))
 		}
 	}
-	
+
 	_can_talk = SHIORI3FW.CanTalk()
 	if _can_talk != SHIORI3FW.CanTalkFlag {
 		if _can_talk {
@@ -809,13 +811,13 @@ SHIORI3FW.RaiseIDEvent
 	if _result == '' {
 		_result = _result_internal
 	}
-	
+
 	if _result != '' {
 		// 遅延EVAL
 		_talk = RE_SPLIT(_result,'(' + EVAL_DELIM + '|' + CHAIN_DELIM + ')')
 		_delim = RE_GETSTR
 		_n = ARRAYSIZE(_delim)
-		
+
 		//先に内部トランスレート
 		if SHIORI3FW.Eventid != 'OnTranslate' {
 			_as = ARRAYSIZE(array_translateinternal)
@@ -829,19 +831,19 @@ SHIORI3FW.RaiseIDEvent
 				}
 			}
 		}
-		
+
 		//後から遅延設定
 		for _i = 0 ; _i < _n ; _i += 1 {
 			if _delim[_i] == EVAL_DELIM {
 				// 遅延EVAL
-				_trash = EVAL(_talk[_i + 1])
+				void EVAL(_talk[_i + 1])
 			}
 			elseif _delim[_i] == CHAIN_DELIM {
 				// チェイン処理
 				SHIORI3FW.StartChainTalk(_talk[_i + 1])
 			}
 		}
-		
+
 		if _talk[0] != '' {
 			if SHIORI3FW.Status != 'Run' {
 				SHIORI3FW.Status = 'Run'
@@ -866,24 +868,24 @@ SHIORI3FW.RaiseIDEvent
 
 //------------------------------------------------------------------------------
 //関数名：SHIORI3FW.MakeEmptyResponse
-//機能　："204を返してはいけないリクエスト"を判定して、
+//機能　：204を返してはいけないリクエストを判定して、
 //        適正な応答文字列を作成します
 //引数　：_argv[0] イベント名
 //------------------------------------------------------------------------------
 SHIORI3FW.MakeEmptyResponse
 {
 	case _argv[0] {
-	when "OnFirstBoot", "OnBoot", "OnWindowStateRestore", "OnGhostChanged"
-		// スコープ0/1の基本サーフィスを出す必要があるイベント
-		"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
+		when 'OnFirstBoot', 'OnBoot', 'OnWindowStateRestore', 'OnGhostChanged'
+			// スコープ0/1の基本サーフィスを出す必要があるイベント
+			"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
 			Value: \0\s[0]\1\s[10]\e%(C_CRLF)"
-	when "OnClose"
-		// 終了指示を出す必要があるイベント
-		"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
+		when 'OnClose'
+			// 終了指示を出す必要があるイベント
+			"SHIORI/3.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)/
 			Value: \0\-\e%(C_CRLF)"
-	others
-		// 上記以外では204を返送して良い
-		"SHIORI/3.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
+		others
+			// 上記以外では204を返送して良い
+			"SHIORI/3.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
 	}
 }
 
@@ -906,8 +908,8 @@ SHIORI3FW.ResetAITalkInterval
 SHIORI3FW.ControlAITalk
 {
 	_return_value = _argv[0]
-	
-	if TOINT(reference[3]) { //喋れる
+
+	if TOINT(reference[3]) {//喋れる
 		if SHIORI3FW.DelayEventTime {
 			SHIORI3FW.DelayEventTime--
 
@@ -918,27 +920,27 @@ SHIORI3FW.ControlAITalk
 				}
 			}
 		}
-		if aitalkinterval > 0 {		// トーク間隔が非0
+		if aitalkinterval > 0 {// トーク間隔が非0
 			_sec = GETSECCOUNT()
 			_diff = _sec - SHIORI3FW.LastAITalkTime
-			if _diff >= aitalkinterval {	// トーク間隔の設定時間を越えた
+			if _diff >= aitalkinterval {// トーク間隔の設定時間を越えた
 				if SHIORI3FW.CanTalk() {
 					if (_sec - SHIORI3FW.LastTalkTime) >= 6 {
 						if (_sec - SHIORI3FW.TalkEndTime) >= 6 {
 							if SHIORI3FW.IsAITalkComplete == 0 {
-								_return_value = "OnAITalkNewEvent"
+								_return_value = 'OnAITalkNewEvent'
 								SHIORI3FW.IsAITalkComplete = 1
 							}
 						}
 					}
 				}
 			}
-			elseif _diff == (aitalkinterval*2/3) { //2/3でSurfaceRestore
+			elseif _diff == (aitalkinterval*2/3) {//2/3でSurfaceRestore
 				if SHIORI3FW.CanTalk() {
 					if (_sec - SHIORI3FW.LastTalkTime) >= 4 {
 						if (_sec - SHIORI3FW.TalkEndTime) >= 2 {
 							if SHIORI3FW.IsSurfaceRestoreComplete == 0 {
-								_return_value = "OnSHIORI3FW.SurfaceRestore"
+								_return_value = 'OnSHIORI3FW.SurfaceRestore'
 								SHIORI3FW.IsSurfaceRestoreComplete = 1
 							}
 						}
@@ -968,7 +970,7 @@ SHIORI3FW.SetDelayEvent : void
 	if STRLEN(_argv[0]) != 0 && _argv[1] {
 		SHIORI3FW.DelayEventTime = TOINT(_argv[1])
 		SHIORI3FW.DelayEvent = _argv[0]
-		SHIORI3FW.DelayEventReference = _argv[2,100] //範囲外は削られるのでこれでOK
+		SHIORI3FW.DelayEventReference = _argv[2,100]//範囲外は削られるのでこれでOK
 	}
 	else {
 		SHIORI3FW.DelayEventTime = 0
@@ -1002,7 +1004,7 @@ SHIORI3FW.MakeReferenceAndPassThruInsVariable : void {
 
 			if SHIORI3FW.REF_ACCEL==0 {//1にすると高速化
 				_varname = 'reference'+_refnum
-				EVAL(_varname+' = _value')
+				LETTONAME(_varname, _value)
 				SHIORI3FW.ReferenceList ,= _varname
 			}
 		}
@@ -1011,7 +1013,7 @@ SHIORI3FW.MakeReferenceAndPassThruInsVariable : void {
 			_value = var.req.value[_i]
 
 			_varname = 'PassThru_Ins.'+_PassThru_Ins_Name
-			EVAL(_varname+' = _value')
+			LETTONAME(_varname, _value)
 			SHIORI3FW.PassThru_Ins_List ,= _varname
 		}
 	}
@@ -1117,14 +1119,14 @@ ChainTalk
 			return
 		}
 	}
-	
+
 	if CHAIN.Script != '' {
 		_res = CHAIN.Script
 		CHAIN.Script = ''
 		_res
 		return
 	}
-	
+
 	SHIORI3FW.EndChainTalk
 	RandomTalk
 }
@@ -1202,8 +1204,8 @@ SHIORI3FW.ExecuteDl2ToDll
 	// 拡張子dl2をdllへ名前変更する　旧dllは消去する
 	foreach _targets; _target {
 		_path = _argv[0] + '\' + _target
-		_dmy = FDEL(_path + '.dll')
-		_dmy = FRENAME(_path + '.dl2', _path + '.dll')
+		void FDEL(_path + '.dll')
+		void FRENAME(_path + '.dl2', _path + '.dll')
 	}
 }
 
@@ -1264,7 +1266,7 @@ SHIORI3FW.StructInstalledGhostList
 	for _i = 0; _i < _num; _i++ {
 		// 取得位置の更新
 		StructGhostList.Index++
-		
+
 		if StructGhostList.Index >= _dirnum; StructGhostList.Index = 0
 
 		// descript.txtから情報取得
@@ -1286,14 +1288,18 @@ SHIORI3FW.StructInstalledGhostList
 //------------------------------------------------------------------------------
 SHIORI3FW.GetGhostNameFromDescriptTxt
 {
-	if !FOPEN(_filename = "%_argv[0]\ghost\master\descript.txt", "r")
+	_charset = SHIORI3FW.GetCharsetFromDescriptTxt(_argv[0])
+	if _charset == ''
+		_charset = 'Shift_JIS'
+	FCHARSET(_charset)
+	if !FOPEN(_filename = "%(_argv[0])\ghost\master\descript.txt", 'r')
 		return
 
 	_ghostname = IARRAY
 	_flag      = 0
 	while _flag != 7 {
 		if (_line = FREAD(_filename)) == -1; break
-		
+
 		case CUTSPACE(_line[0]) {
 			when 'name' {
 				_ghostname[0] = CUTSPACE(_line[1])
@@ -1312,6 +1318,33 @@ SHIORI3FW.GetGhostNameFromDescriptTxt
 
 	FCLOSE(_filename)
 	_ghostname
+}
+
+//------------------------------------------------------------------------------
+//関数名：SHIORI3FW.GetCharsetFromDescriptTxt
+//機能　：descript.txtからcharsetを取得します
+//引数　：_argv[0] 取得対象のゴーストディレクトリ
+//------------------------------------------------------------------------------
+SHIORI3FW.GetCharsetFromDescriptTxt
+{
+	if !FOPEN(_filename = "%(_argv[0])\ghost\master\descript.txt", 'r')
+		return
+
+	_charset = ''
+	_flag = 0
+	while _flag != 1 {
+		if (_line = FREAD(_filename)) == -1; break
+
+		case TOLOWER(CUTSPACE(_line[0])) {
+			when 'charset' {
+				_charset = CUTSPACE(_line[1])
+				_flag++
+			}
+		}
+	}
+
+	FCLOSE(_filename)
+	_charset
 }
 
 //******************************************************************************
@@ -1420,7 +1453,7 @@ SHIORI3FW.RequestLib
 	var.lib.key   = IARRAY
 	var.lib.value = IARRAY
 	var.lib.result = ''
-	
+
 	_skip = 1
 	foreach _lines; _lin {
 		// 1行目は飛ばす
@@ -1435,7 +1468,7 @@ SHIORI3FW.RequestLib
 		var.lib.key ,= (_key = SUBSTR(_lin, 0, _pos))
 		_value       = SUBSTR(_lin, _pos + 2, _len - _pos - 2)
 		_valuecv     = ''
-		
+
 		if var.lib.key == '' {
 			break
 		}
@@ -1451,7 +1484,7 @@ SHIORI3FW.RequestLib
 		else {
 			_valuecv = TOAUTOEX(_value)
 		}
-		
+
 		var.lib.value ,= _valuecv
 		if _key == 'Result' {
 			var.lib.result = _valuecv
@@ -1462,18 +1495,16 @@ SHIORI3FW.RequestLib
 //------------------------------------------------------------------------------
 //関数名：SHIORI3FW.MakeValueexVariable
 //機能　：リクエストヘッダからvalueex*変数を作成します
-//引数　：_argv[0] SAORIファイル名
-//　　　　_argv[1] リクエスト文字列
 //------------------------------------------------------------------------------
 SHIORI3FW.MakeValueexVariable
 {
-	SHIORI3FW.ValueexList = IARRAY
-	_sz                   = ARRAYSIZE(var.lib.key)
+	SHIORI3FW.ClearValueexVariable()
+	valueex = IARRAY()
+	_sz = ARRAYSIZE(var.lib.key)
 	for _i = 0; _i < _sz; _i++ {
-		if SUBSTR(_keyname = var.lib.key[_i], 0, 5) == "Value" {
+		if SUBSTR(_keyname = var.lib.key[_i], 0, 5) == 'Value' {
 			_varname = "valueex%(SUBSTR(_keyname, 5, 3))"
-			void EVAL("%(_varname) = var.lib.value[_i]")
-			SHIORI3FW.ValueexList ,= _varname
+			LETTONAME(_varname, var.lib.value[_i])
 			valueex[TOINT(SUBSTR(_keyname, 5, 3))] = var.lib.value[_i]
 		}
 	}
@@ -1485,8 +1516,12 @@ SHIORI3FW.MakeValueexVariable
 //------------------------------------------------------------------------------
 SHIORI3FW.ClearValueexVariable
 {
-	foreach SHIORI3FW.ValueexList; _exname { ERASEVAR(_exname) }
-	ERASEVAR('SHIORI3FW.ValueexList')
+	_valueexList = GETVARLIST('valueex')
+	foreach _valueexList; _exname {
+		if RE_MATCH(_exname, 'valueex[0-9]+') {
+			ERASEVAR(_exname)
+		}
+	}
 	ERASEVAR('valueex')
 }
 
@@ -1508,8 +1543,8 @@ SHIORI3FW.SaoriUnloadAll
 SHIORI3FW.RegisterTempVar
 {
 	for _i = 0 ; _i < _argc ; _i++ {
-		if ASEARCH(_argv[_i],tempvarname) < 0 {
-			tempvarname ,= _argv[_i]
+		if ASEARCH(_argv[_i],SHIORI3FW.tempvarname) < 0 {
+			SHIORI3FW.tempvarname ,= _argv[_i]
 		}
 	}
 }
@@ -1521,9 +1556,9 @@ SHIORI3FW.RegisterTempVar
 //------------------------------------------------------------------------------
 SHIORI3FW.RemoveAllTags
 {
-	_text = RE_REPLACE(_argv[0],'\\_{0,2}[a-zA-Z0-9*!&](\d|\[("([^"]|\\")+?"|([^\]]|\\\])+?)+?\])?','')
+	_text = RE_REPLACE(_argv[0],'\\_{0,2}[a-zA-Z0-9*!&\-+](\d|\[("([^"]|\\")+?"|([^\]]|\\\])+?)+?\])?','')
 	_text = REPLACE(_text,'\\','\')
-	_text;
+	_text
 }
 
 //------------------------------------------------------------------------------
@@ -1548,7 +1583,7 @@ SHIORI3FW.CanTalk
 		0
 		return
 	}
-	
+
 	1
 	return
 }
@@ -1562,10 +1597,10 @@ JOIN
 		_argv[0]
 		return
 	}
-	
+
 	_delim = _argv[_argc - 1]
 	_argc--
-	
+
 	_text = _argv[0]
 	for _i = 1 ; _i < _argc ; _i++ {
 		_text += _delim
@@ -1585,19 +1620,7 @@ REVERSE
 
 UNIQUE
 {
-	_v = _argv
-	_n = ARRAYSIZE(_v)
-	
-	for _i = 0 ; _i < _n ; _i++ {
-		for _j = _i+1 ; _j < _n ; _j++ {
-			if _v[_i] == _v[_j] {
-				_v[_j] = IARRAY
-				_n -= 1
-				_j -= 1
-			}
-		}
-	}
-	_v
+	ARRAYDEDUP(_argv)
 }
 
 SPLITEX
@@ -1646,12 +1669,6 @@ AVERAGE
 //******************************************************************************
 // システムで処理するイベント群
 //******************************************************************************
-SHIORI3EV.OnUpdateReady : void
-{
-	// OnUpdateReadyならロード中のSAORIをすべてunloadする
-	SHIORI3FW.SaoriUnloadAll
-}
-
 SHIORI3EV.OnUpdateComplete : void
 {
 	// OnUpdateCompleteならdl2を探す。存在したら同名のdllを削除、dl2はdllにリネームする
@@ -1665,7 +1682,7 @@ SHIORI3EV.OnSurfaceChange : void
 		_r2 = SPLIT(reference[2],',')
 		_s = TOINT(_r2[1])
 		_c = TOINT(_r2[0])
-		
+
 		if _s >= 0 {
 			SHIORI3FW.LastSurface[_c] = _s
 			SHIORI3FW.IsVisible[_c] = 1
@@ -1677,7 +1694,7 @@ SHIORI3EV.OnSurfaceChange : void
 	else {
 		_s0 = TOINT(reference[0])
 		_s1 = TOINT(reference[1])
-		
+
 		if _s0 >= 0 {
 			SHIORI3FW.LastSurface[0] = _s0
 			SHIORI3FW.IsVisible[0] = 1
@@ -1685,7 +1702,7 @@ SHIORI3EV.OnSurfaceChange : void
 		else {
 			SHIORI3FW.IsVisible[0] = 0
 		}
-		
+
 		if _s1 >= 0 {
 			SHIORI3FW.LastSurface[1] = _s1
 			SHIORI3FW.IsVisible[1] = 1
@@ -1700,27 +1717,27 @@ SHIORI3EV.On_hwnd : void
 {
 	SHIORI3FW.HWnd = RE_SPLIT(reference[0],'[\x1,]')
 	SHIORI3FW.BalloonHWnd = RE_SPLIT(reference[1],'[\x1,]')
-	
+
 	_m = ARRAYSIZE(SHIORI3FW.HWndOld)
 	_n = ARRAYSIZE(SHIORI3FW.HWnd)
-	
+
 	if _n < _m {
 		_n = _m
 	}
-	
+
 	for _i = 0 ; _i < _n ; _i++ {
 		SHIORI3FW.HWnd[_i] = TOINT(SHIORI3FW.HWnd[_i])
 		SHIORI3FW.HWndOld[_i] = TOINT(SHIORI3FW.HWndOld[_i])
 	}
-	
+
 	_refold  = reference
 	_refold0 = reference0
-	
+
 	for _i = 0 ; _i < _n ; _i++ {
 		if SHIORI3FW.HWndOld[_i] != SHIORI3FW.HWnd[_i] {
 			reference[0] = _i
 			reference0 = _i
-			
+
 			if SHIORI3FW.HWndOld[_i] == 0 {
 				void EVAL('OnSHIORI3FW.WindowCreate')
 			}
@@ -1731,7 +1748,7 @@ SHIORI3EV.On_hwnd : void
 			SHIORI3FW.HWndOld[_i] = SHIORI3FW.HWnd[_i]
 		}
 	}
-	
+
 	reference = _refold
 	reference0 = _refold0
 }
@@ -1755,11 +1772,11 @@ SHIORI3EV.OnNotifySelfInfo : void
 	SHIORI3FW.BalloonNameOld = SHIORI3FW.BalloonName
 	SHIORI3FW.BalloonName = reference[5]
 	SHIORI3FW.BalloonPath = reference[6]
-	
+
 	selfname = reference[1]
 	sakuraname = reference[1]
 	keroname = reference[2]
-	
+
 	EVAL('OnSHIORI3FW.ChangeSelfInfo')
 }
 
@@ -1778,7 +1795,7 @@ SHIORI3EV.OnShellChanged : void
 {
 	SHIORI3FW.ShellName = reference[0]
 	SHIORI3FW.ShellPath = reference[2]
-	
+
 	EVAL('OnSHIORI3FW.ChangeSelfInfo')
 }
 
@@ -1786,7 +1803,7 @@ SHIORI3EV.OnBalloonChange : void
 {
 	SHIORI3FW.BalloonName = reference[0]
 	SHIORI3FW.BalloonPath = reference[1]
-	
+
 	EVAL('OnSHIORI3FW.ChangeSelfInfo')
 }
 
@@ -1806,7 +1823,7 @@ SHIORI3EV.OnAITalkNewEvent
 		EVAL(_old_name)
 		return
 	}
-	
+
 	//---- 通常のランダムトーク、ただしチェイン中はチェイントーク
 	if SHIORI3FW.IsChain {
 		ChainTalk
@@ -1837,6 +1854,26 @@ SHIORI3EV.On_name
 	GETSETTING('coreinfo.name')
 }
 
+//---- tama対応 ------------------------------------------------------------------
+SHIORI3EV.On_tamaOpen
+{
+	SHIORI3FW.TamaHwnd = reference[0]
+	SETTAMAHWND(SHIORI3FW.TamaHwnd)
+}
+
+SHIORI3EV.On_tamaExit
+{
+	ERASEVAR('SHIORI3FW.TamaHwnd')
+	SETTAMAHWND(0)
+}
+
+SHIORI3EV.OnInitialize
+{
+	if reference[0] == 'reload' {
+		SETTAMAHWND(SHIORI3FW.TamaHwnd)
+	}
+}
+
 //******************************************************************************
 // デバッグ
 //******************************************************************************
@@ -1850,7 +1887,7 @@ SHIORI3EV.On_enable_log : void
 	}
 }
 
-SHIORI3EV.On_log_path : void
+SHIORI3EV.On_log_path
 {
 	SHIORI3FW.Path + 'yaya_ssp_debug.log'
 }
@@ -1930,3 +1967,4 @@ memorytotalphys    { GETMEMINFO[1] }
 memoryavailphys    { GETMEMINFO[2] }
 memorytotalvirtual { GETMEMINFO[3] }
 memoryavailvirtual { GETMEMINFO[4] }
+

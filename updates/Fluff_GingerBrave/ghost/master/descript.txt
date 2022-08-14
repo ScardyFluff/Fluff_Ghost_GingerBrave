@@ -18,4 +18,4 @@ shiori,yaya.dll
 icon,icon_gingerbrave.ico
 
 //--- Balloon ---
-balloon,z_simple
+balloon,Fluff_GingerBraveBalloon
