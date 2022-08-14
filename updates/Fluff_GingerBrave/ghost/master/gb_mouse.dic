@@ -21,7 +21,7 @@ OnMouseMove
 		else //if the character isn't 0, then it must be the side character.
 		{
 			//---- this will run the mouse functions for the side character.
-			MouseMoveKero
+			//MouseMoveKero
 		}
  }
  
@@ -48,19 +48,16 @@ MouseMoveSakura
  			stroke = 0 //resetting the stroke count
 			if reference4 == "Head" //do you remember the names of the areas you set up for your collisions in surfaces.txt? This is where they come into play! This is where you'd put in the name of your collision, such as head, face, horns, tail, ears, whatever. As mentioned in surfaces.txt, you can add as many collisions to a pose as you want, as long as you make sure to add them all in here so they can actually be used.
  			{
-				"\0\s[0]This is some petting dialogue.\e"
-				"\0\s[0]This is some more petting dialogue.\e"
-				"\0\s[0]This is another bit of petting dialogue.\e"
-				//Replace these with whatever petting responses you like. You can also add more dialogue here if you want, or cut them down. Though removing them entirely seems a bit counter-intuitive to all that work we've been doing.
+				"\0\s[0]You are petting my head.\e"
+			}
+ 			elseif reference4 == "Face"
+			{
+ 				"\0\s[0]You are petting my face.\e"
  			}
- 			elseif reference4 == "Face" //Another area set up by the collisions in surfaces.txt. You can expand this list with as many elseifs as you need depending on how many collisions you've set up.
+			elseif reference4 == "Belly"
  			{
- 				"\0\s[0]This is petting dialogue for my face.\e"
- 				"\0\s[0]This is more petting dialogue for my face.\e"
- 				"\0\s[0]This is another bit of petting dialogue for my face. Well, stroking would probably be more accurate.\e"
-				//Replace with appropriate dialogue as needed.
+ 				"\0\s[0]You are petting my belly.\e"
  			}
-			
  		}
 	}
  	else
@@ -73,36 +70,30 @@ MouseMoveSakura
  //---- MouseMoveKero -----------------------------------------------------------------
  //MouseMoveKero is exactly like the above, except set up for your second character. 
  
-MouseMoveKero
- {
-	if reference4 != ""
- 	{
- 		stroke++
- 		if stroke >= 40
-		{
-			stroke = 0
-			if reference4 == "Face" //Put in the name of your collision area you set up for your secondary character here.
- 			{
-				"\1\s[10]This is a face touching dialogue.\e"
-				"\1\s[10]This is another face touching dialogue.\e"
-				"\1\s[10]This is yet another face touching dialogue.\e"
-				//Replace this dialogue with your secondary character's dialogue.
- 			}
-			elseif reference4 == "Point" //Like above, put in the name of another collision you set up in surfaces.txt for the secondary character. You can keep adding more elseifs like this for any extra collisions you may have set up.
-			{
-				"\1\s[10]This is a point touching dialogue since I don't really have a head, being a triangle.\e"
-				"\1\s[10]This is another point touching dialogue.\e"
-				"\1\s[10]This is yet another point touching dialogue.\e"
-				//Replace this dialogue as appropriate.
-			}	
- 		}
-	}
- 	else
-	{
- 		// If the mouse isn't over the ghost, it'll zero out the stroke value.
-		stroke = 0
- 	}
-}
+//MouseMoveKero
+// {
+//	if reference4 != ""
+// 	{
+// 		stroke++
+// 		if stroke >= 40
+//		{
+//			stroke = 0
+//			if reference4 == "Face" //Put in the name of your collision area you set up for your secondary character here.
+// 			{
+//				"\1\s[10]This is a face touching dialogue.\e"
+// 			}
+//			elseif reference4 == "Point" //Like above, put in the name of another collision you set up in surfaces.txt for the secondary character. You can keep adding more elseifs like this for any extra collisions you may have set up.
+//			{
+//				"\1\s[10]This is a point touching dialogue since I don't really have a head, being a triangle.\e"
+//			}	
+//		}
+//	}
+// 	else
+//	{
+// 		// If the mouse isn't over the ghost, it'll zero out the stroke value.
+//		stroke = 0
+// 	}
+//}
 
 //---- OnMouseDoubleClick -------------------------------------------------------
 //This is set up much like OnMouseMove above, except this is checking to see if the user is double clicking on the ghost. You also don't need to touch any of this. 
@@ -119,7 +110,7 @@ OnMouseDoubleClick
 		}
 		else
 		{
- 		MouseDoubleClickKero
+ 		//MouseDoubleClickKero
 		}
 	}
  }
@@ -144,12 +135,8 @@ MouseDoubleClickSakura
  {
  	if reference4 == "Head" || reference4 == "Face" //here, this is checking to see if the user is double clicking on either the character's head OR their face, which for our purposes means they're hitting the ghost. More about operators at the walkthrough.
 	{
-		"\0\s[0]This is the hitting dialogue.\w8\1\s[15]lol\w8\0\s[9]\n\n[half]Shut up.\e"
-		"\0\s[0]This is another hitting dialogue.\e"
-		"\0\s[0]This is yet another bit of text for hitting.\e"
-		"\0\s[0]This is the fourth hitting dialogue.\e"
-		//Replace this dialogue with appropriate dialogue as you need. You can add more or cut it down if you want, even down to nothing if you want no response from your ghost at all when those areas are double clicked.
- 	}
+		"\0\s[0]Don't hit me.\e"
+	}
 	else
  	{
 		//Otherwise, if the user doubleclicks somewhere else on the character, they will open their menu as detailed in menu.dic.
@@ -162,21 +149,17 @@ MouseDoubleClickSakura
  //This is just the same as MouseDoubleClickSakura above, except for your secondary character. The same principles apply, including how to make your character unhittable.
  
  
-MouseDoubleClickKero
- {
- 	if reference4 == "Face" //Triangle doesn't have a separate head really, being a triangle, so this only happens if you doubleclick his face.
-	{
-		"\1\s[10]This is hitting dialogue.\w8\0\s[5]ha ha\w8\1\s[19]\n\n[half]Quiet.\e"
-		"\1\s[10]This is another hit dialogue.\e"
-		"\1\s[10]This is yet another hit dialogue.\e"
-		"\1\s[10]This is the fourth hitting dialogue.\e"
-		//Replace the dialogue here for the second character with whatever you want. What I said above about adding or trimming still holds here.
- 	}
-	else //Otherwise if you click anywhere else on Triangle's body
- 	{
-		OpenKeroMenu //This will open his menu set up in menu.dic.
-	}
- }
+//MouseDoubleClickKero
+// {
+// 	if reference4 == "Face" //Triangle doesn't have a separate head really, being a triangle, so this only happens if you doubleclick his face.
+//	{
+//		"\1\s[10]This is another hit dialogue.\e"
+//	}
+//	else //Otherwise if you click anywhere else on Triangle's body
+//	{
+//		OpenKeroMenu //This will open his menu set up in menu.dic.
+//	}
+//}
 
  //*********************Advanced User Info*******************************
  //There are other mouse related functions you could set up much like the above, such as OnMouseDragStart, OnMouseDragEnd, OnMouseWheel, and others which correspond to various things you can do with your mouse. You can probably guess what those functions do just by their names - OnMouseWheel would be if someone spun their mouse wheel over a certain area, for example. If you're interested in these, I'd recommend doing some reading at the CROW-SSP Encyclopedia to get a better idea of them and settle down for some trial and error learning as you try to put them in.
