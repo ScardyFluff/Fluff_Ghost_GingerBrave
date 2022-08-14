@@ -12,7 +12,7 @@ group,GB
 		0,Default
 }
 
-group,Friend
+group,None
 {
 	scope,0
 
