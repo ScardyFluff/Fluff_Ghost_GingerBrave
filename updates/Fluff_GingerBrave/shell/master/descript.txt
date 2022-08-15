@@ -10,7 +10,7 @@ seriko.use_self_alpha,1
 //Basic
 charset,UTF-8
 type,shell
-name,Normal Look
+name,Normal
 craftman,idkimtired
 craftmanurl,
 
