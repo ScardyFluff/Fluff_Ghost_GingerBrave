@@ -10,6 +10,8 @@ group,GB
 	scope,0
 
 		0,Default
+		1,Embarrassed A
+		2,Embarrassed B
 }
 
 group,None
