@@ -21,21 +21,16 @@ collision2,72,106,113,153,Belly
 0pattern4,-1,3,overlay,0,0
 
 //--- Talk
-//1interval,talk,4
-//1pattern0,0,0,alternativestart,[2.3.4]
+1interval,talk,3
+1pattern0,0,0,alternativestart,[2.3]
 
-//2interval,never
-//2pattern0,1102,10,overlay,0,0
-//2pattern1,1101,13,overlay,0,0
-//2pattern2,-1,10,overlay,0,0
+2interval,never
+2pattern0,1300,5,overlay,0,0
+2pattern1,-1,7,overlay,0,0
 
-//3interval,never
-//3pattern0,1101,14,overlay,0,0
-//3pattern1,-1,10,overlay,0,0
-
-//4interval,never
-//4pattern0,1102,14,overlay,0,0
-//4pattern1,-1,10,overlay,0,0
+3interval,never
+3pattern0,1300,5,overlay,0,0
+3pattern1,-1,17,overlay,0,0
 
 //--- Dressup
 //200interval,bind
@@ -53,31 +48,6 @@ collision0,55,36,126,57,Head
 collision1,63,61,116,100,Face
 collision2,67,104,112,150,Belly
 
-//--- Blink
-//0interval,random,4
-//0pattern0,-1,10,overlay,0,0
-//0pattern1,1100,5,overlayfast,0,0
-//0pattern2,1101,10,overlayfast,0,0
-//0pattern3,1100,5,overlayfast,0,0
-//0pattern4,-1,3,overlay,0,0
-
-//--- Talk
-//1interval,talk,4
-//1pattern0,0,0,alternativestart,[2.3.4]
-
-//2interval,never
-//2pattern0,1102,10,overlay,0,0
-//2pattern1,1101,13,overlay,0,0
-//2pattern2,-1,10,overlay,0,0
-
-//3interval,never
-//3pattern0,1101,14,overlay,0,0
-//3pattern1,-1,10,overlay,0,0
-
-//4interval,never
-//4pattern0,1102,14,overlay,0,0
-//4pattern1,-1,10,overlay,0,0
-
 //--- Dressup
 //200interval,bind
 //200pattern0,400,0,add,0,0
@@ -94,30 +64,53 @@ collision0,55,36,126,57,Head
 collision1,63,61,116,103,Face
 collision2,67,104,112,150,Belly
 
-//--- Blink
-//0interval,random,4
-//0pattern0,-1,10,overlay,0,0
-//0pattern1,1100,5,overlayfast,0,0
-//0pattern2,1101,10,overlayfast,0,0
-//0pattern3,1100,5,overlayfast,0,0
-//0pattern4,-1,3,overlay,0,0
+//--- Dressup
+//200interval,bind
+//200pattern0,400,0,add,0,0
+}
 
-//--- Talk
-//1interval,talk,4
-//1pattern0,0,0,alternativestart,[2.3.4]
+//--- Surprised A ---
+surface3
+{
+//--- Basic
+element0,overlay,surface1002.png,0,0
 
-//2interval,never
-//2pattern0,1102,10,overlay,0,0
-//2pattern1,1101,13,overlay,0,0
-//2pattern2,-1,10,overlay,0,0
+//--- Collision
+collision0,49,33,115,59,Head
+collision1,57,63,109,103,Face
+collision2,66,106,107,158,Belly
 
-//3interval,never
-//3pattern0,1101,14,overlay,0,0
-//3pattern1,-1,10,overlay,0,0
+//--- Dressup
+//200interval,bind
+//200pattern0,400,0,add,0,0
+}
 
-//4interval,never
-//4pattern0,1102,14,overlay,0,0
-//4pattern1,-1,10,overlay,0,0
+//--- Surprised B ---
+surface4
+{
+//--- Basic
+element0,overlay,surface1003.png,0,0
+
+//--- Collision
+collision0,49,33,115,59,Head
+collision1,57,63,109,103,Face
+collision2,66,106,107,158,Belly
+
+//--- Dressup
+//200interval,bind
+//200pattern0,400,0,add,0,0
+}
+
+//--- Surprised C ---
+surface5
+{
+//--- Basic
+element0,overlay,surface1004.png,0,0
+
+//--- Collision
+collision0,49,33,115,59,Head
+collision1,57,63,109,103,Face
+collision2,66,106,107,158,Belly
 
 //--- Dressup
 //200interval,bind

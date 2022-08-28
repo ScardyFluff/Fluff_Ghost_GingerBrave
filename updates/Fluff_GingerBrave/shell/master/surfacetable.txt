@@ -12,6 +12,9 @@ group,GB
 		0,Default
 		1,Embarrassed A
 		2,Embarrassed B
+		3,Surprised A
+		4,Surprised B
+		5,Surprised C
 }
 
 group,None
